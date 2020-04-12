@@ -905,30 +905,30 @@ int devamlc (int class, int func, int device) {
 	     methods, this stuff might be better off in a very thin
 	     connection server */
 
-	  buf[0] = TN_IAC;
-	  buf[1] =   TN_WILL;
-	  buf[2] =   TN_ECHO;
-	  buf[3] = TN_IAC;
-	  buf[4] =   TN_WILL;
-	  buf[5] =   TN_SGA;
-	  buf[6] = TN_IAC;
-	  buf[7] =   TN_DO;
-	  buf[8] =   TN_BINARY;
+	  buf[0] = (char)TN_IAC;
+	  buf[1] =   (char)TN_WILL;
+	  buf[2] =   (char)TN_ECHO;
+	  buf[3] = (char)TN_IAC;
+	  buf[4] =   (char)TN_WILL;
+	  buf[5] =   (char)TN_SGA;
+	  buf[6] = (char)TN_IAC;
+	  buf[7] =   (char)TN_DO;
+	  buf[8] =   (char)TN_BINARY;
 
 	  /* this is to allow ctrl-o, flushoutput, to pass through;
 	     but it isn't finished.  See:
 	     http://tools.ietf.org/html/rfc1116 */
 
-	  buf[9] = TN_IAC;
-	  buf[10] =   TN_DO;
-	  buf[11] =   TN_LINEMODE;
-	  buf[12] = TN_IAC;
-	  buf[13] =   TN_SUBOPT;
-	  buf[14] =      TN_LINEMODE;
-	  buf[15] =         TN_MODE;
+	  buf[9] = (char)TN_IAC;
+	  buf[10] =   (char)TN_DO;
+	  buf[11] =   (char)TN_LINEMODE;
+	  buf[12] = (char)TN_IAC;
+	  buf[13] =   (char)TN_SUBOPT;
+	  buf[14] =      (char)TN_LINEMODE;
+	  buf[15] =         (char)TN_MODE;
 	  buf[16] =         0  /* mask */;
-	  buf[12] = TN_IAC;
-	  buf[13] =    TN_SUBOPT;
+	  buf[12] = (char)TN_IAC;
+	  buf[13] =    (char)TN_SUBOPT;
 	  write(fd, buf, 9);
 
 	  /* send out the ttymsg greeting */

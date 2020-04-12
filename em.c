@@ -5986,9 +5986,11 @@ d_xed:  /* 001112 */
 	ZGETC(zea1, zlen1, zcp1, zclen1, zch1);
 	if (xsign)
 	  if (zch1 == XZERO)
+    {
 	    zch1 = XRBRACE;
-	  else
+	  } else {
 	    zch1 = zch1-XONE+XJ;
+    }
 	ZPUTC(zea2, zlen2, zcp2, zclen2, zch1);
 	m--;
       }
@@ -6627,12 +6629,13 @@ d_bdx:  /* 0140734 */
 	    if (devpoll[i] <= 100) {      /* too fast! */
 	      utempl = 1;
 	      break;
-	    } else if (devpoll[i] < utempl)
+	    } else if (devpoll[i] < utempl) { 
 	      utempl = devpoll[i];
-      } else {
-	firstbdx = 0;
-	utempl = 1;
       }
+    } else {
+	   firstbdx = 0;
+	   utempl = 1;
+    }
 
       /* this decrement ensures that if a device had a poll pending,
 	 we won't decrement it to zero below, ie, it'll still fire
@@ -9053,11 +9056,11 @@ dfcmdr:
       utempl1 = EACP(getgr32(dr));
       utempl2 = EACP(immu32);
       if (utempl1 < utempl2)
-	putcrs16(KEYS, getcrs16(KEYS) & ~0300 | 0200);
+	putcrs16(KEYS, (getcrs16(KEYS) & ~0300) | 0200);
       else if (utempl1 == utempl2)
-	putcrs16(KEYS, getcrs16(KEYS) & ~0300 | 0100);
+	putcrs16(KEYS, (getcrs16(KEYS) & ~0300) | 0100);
       else
-	putcrs16(KEYS, getcrs16(KEYS) & ~0300);
+	putcrs16(KEYS, (getcrs16(KEYS) & ~0300));
     } else {
       TRACE(T_FLOW, " LCC\n");
       utempa = get16(ea);
