@@ -1054,6 +1054,7 @@ int devpnc (int class, int func, int device) {
       fatal(NULL);
     }
 
+#ifdef __linux__
     /* a uid is always sent after a connect, so don't bother with the
        accept until the uid is received.  This is Linux-specific and
        can be disabled, though that may cause problems for rings where
@@ -1064,7 +1065,8 @@ int devpnc (int class, int func, int device) {
       perror("setsockopt TCP_DEFER_ACCEPT failed for PNC");
       fatal(NULL);
     }
-
+#endif
+    
     TRACE(T_RIO, "PNC configured\n");
     devpoll[device] = PNCPOLL*gv.instpermsec;
 

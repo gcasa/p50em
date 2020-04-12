@@ -308,7 +308,7 @@ int devasr (int class, int func, int device) {
   switch (class) {
 
   case -2:    /* cleanup */
-    if (!initialized) return;
+    if (!initialized) return 0;
     if (tcsetattr(ttydev, TCSANOW, &origterminfo) == -1)
       perror(" unable to reset tty attributes");
     fclose(conslog);
@@ -395,7 +395,7 @@ int devasr (int class, int func, int device) {
     TRACE(T_INST, " SKS '%02o%02o\n", func, device);
     if (func == 6) {               /* skip if room for a character */
       if (xoff)                    /* no output if xoff */
-	return;
+	return 0;
       if (roomleft <= 0) {         /* shouldn't be negative, but safer */
 	if (getcrs16(MODALS) & 010)/* PX enabled? */
 	  timeout.tv_sec = 0;      /* yes, can't delay */
@@ -555,7 +555,7 @@ readasr:
       TRACE(T_INST, " char to write=%o: %c\n", getcrs16(A), ch);
       if (ch == 0 || ch == 0x7f) {  /* ignore null and del (rubout) */
 	IOSKIP;
-	return;
+	return 0;
       }
 #if 0
       /* could do this here too, but Primos does it with SKS before
@@ -1849,7 +1849,7 @@ int devdisk (int class, int func, int device) {
     /* INA's are only accepted when the controller is not busy */
 
     if (dc[dx].state != S_HALT)
-      return;
+      return 0;
 
     if (func == 01)          /* read device id, clear A first */
       putcrs16(A, CID4005 + device);
@@ -2174,7 +2174,7 @@ int devdisk (int class, int func, int device) {
 	if (getcrs16(MODALS) & 010)             /* PX enabled? */
 	  break;                           /* yes, no stall */
 	devpoll[device] = gv.instpermsec/5;   /* 200 microseconds, sb 210 */
-	return;
+	return 0;
 
       case 9: /* DSTAT = Store status to memory */
 	TRACE(T_INST|T_DIO,  " store status='%o to '%o\n", dc[dx].status, m1);
@@ -2202,7 +2202,7 @@ int devdisk (int class, int func, int device) {
 	}
 	//gv.traceflags = ~T_MAP;
 	devpoll[device] = 10;
-	return;
+	return 0;
 
       case 15: /* DTRAN = channel program jump */
 	dc[dx].oar = m1;
